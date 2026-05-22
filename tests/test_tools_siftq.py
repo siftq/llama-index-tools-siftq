@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+import pytest
 from llama_index.core.tools.tool_spec.base import BaseToolSpec
 
 from llama_index.tools.siftq import SiftQToolSpec
@@ -138,7 +139,6 @@ def test_search_sets_last_credits_and_total(mock_post):
 def test_error_code_2005_raises(mock_post):
     tool = SiftQToolSpec(api_key="bad-key", verbose=False)
     mock_post.return_value.json.return_value = {"code": 2005, "message": "invalid key"}
-    import pytest
 
     with pytest.raises(RuntimeError, match="API key rejected"):
         tool.search("hello")
@@ -148,7 +148,6 @@ def test_error_code_2005_raises(mock_post):
 def test_error_code_3003_raises(mock_post):
     tool = SiftQToolSpec(api_key="test-key", verbose=False)
     mock_post.return_value.json.return_value = {"code": 3003, "message": "limit reached"}
-    import pytest
 
     with pytest.raises(RuntimeError, match="daily search limit reached"):
         tool.search("hello")
@@ -158,7 +157,6 @@ def test_error_code_3003_raises(mock_post):
 def test_error_code_unknown_raises(mock_post):
     tool = SiftQToolSpec(api_key="test-key", verbose=False)
     mock_post.return_value.json.return_value = {"code": 9999, "message": "something else"}
-    import pytest
 
     with pytest.raises(RuntimeError, match="code=9999"):
         tool.search("hello")

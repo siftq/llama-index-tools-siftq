@@ -69,7 +69,7 @@ class SiftQToolSpec(BaseToolSpec):
         payload: dict[str, Any] = {
             "q": query,
             "scope": scope,
-            "size": size or self._max_results,
+            "size": size if size is not None else self._max_results,
             "includeSummary": include_summary,
             "includeRawContent": include_raw_content,
             "conciseSnippet": concise_snippet,
@@ -90,6 +90,7 @@ class SiftQToolSpec(BaseToolSpec):
             headers=headers,
             **kwargs,
         )
+        response.raise_for_status()
         data = response.json()
         code = data.get("code", 0)
         if code == 3003:
@@ -100,7 +101,6 @@ class SiftQToolSpec(BaseToolSpec):
             raise RuntimeError("search failed: API key rejected. Check your SiftQ API key.")
         if code:
             raise RuntimeError(f"search failed: code={code}, message={data.get('message', '')}")
-        response.raise_for_status()
         return data
 
     def _extract_results(self, data: dict[str, Any], scope: str) -> list[dict[str, Any]]:
@@ -133,6 +133,10 @@ class SiftQToolSpec(BaseToolSpec):
             include_raw_content: Fetch raw content from source pages.
             concise_snippet: Return concise snippet with exact original text match.
         """
+        if scope not in self.SCOPE_KEY_MAP:
+            raise ValueError(
+                f"Invalid scope '{scope}'. Must be one of: {', '.join(self.SCOPE_KEY_MAP)}"
+            )
         data = self._call_api(
             query=query,
             scope=scope,

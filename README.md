@@ -29,12 +29,15 @@ results = tool.search("latest AI research papers")
 
 ```python
 import os
+
+from llama_index.core.agent import FunctionAgent
+from llama_index.llms.openai import OpenAI
+
 from llama_index.tools.siftq import SiftQToolSpec
 
 siftq_tool = SiftQToolSpec(
     api_key=os.environ["SIFTQ_API_KEY"],
 )
-```
 agent = FunctionAgent(
     tools=siftq_tool.to_tool_list(),
     llm=OpenAI(model="gpt-4.1"),
