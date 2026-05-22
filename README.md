@@ -87,12 +87,12 @@ for r in results:
 # Search podcasts
 results = tool.search("data science", scope="podcast")
 for r in results:
-    print(r["title"], r.get("podcastName"), r.get("audioUrl"))
+    print(r["title"], r.get("link"), r.get("duration"))
 
 # Search documents
 results = tool.search("quarterly report", scope="document")
 for r in results:
-    print(r["title"], r.get("source"))
+    print(r["title"], r.get("link"))
 ```
 
 ## Available Tools
@@ -107,7 +107,7 @@ for r in results:
 ## Configuration
 
 | Parameter | Type | Default | Description |
-|---|---|---|---|---|
+|---|---|---|---|
 | `api_key` | `str` | `None` (uses free tier) | SiftQ API key, or `SIFTQ_API_KEY` env var, or free tier default |
 | `verbose` | `bool` | `True` | Print search metadata |
 | `max_results` | `int` | `5` | Default number of results |
