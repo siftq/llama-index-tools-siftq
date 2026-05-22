@@ -39,6 +39,8 @@ classifiers = [
 # ---- Main dependencies ----
 
 dependencies = [
+    "httpx>=0.27.0,<1",
+    "llama-index-core>=0.13.0,<0.16",
 ]
 
 
@@ -56,8 +58,6 @@ dev = [
 ]
 
 [project.scripts]
-# Add script entry points here:
-llama-index-tools-siftq = "llama_index_tools_siftq:main"
 
 
 # ---- Build system ----
@@ -82,7 +82,7 @@ bump = true
 
 [tool.hatch.build.targets.wheel]
 # The source location for the package.
-packages = ["src/llama_index_tools_siftq"]
+packages = ["llama_index/tools/siftq"]
 
 
 # ---- Settings ----
@@ -134,7 +134,7 @@ ignore = [
 # than mypy and with a good extension for VSCode/Cursor.
 # https://marketplace.visualstudio.com/items?itemName=detachhead.basedpyright
 # https://docs.basedpyright.com/latest/configuration/config-files/#sample-pyprojecttoml-file
-include = ["src", "tests", "devtools"]
+include = ["llama_index", "tests", "devtools"]
 # By default BasedPyright is very strict, so you almost certainly want to disable
 # some of the rules.
 # First, these turn off warnings about (yes) how you ignore warnings:
@@ -149,6 +149,12 @@ reportAny = false
 reportExplicitAny = false
 reportImplicitStringConcatenation = false
 reportUnreachable = false
+reportUnannotatedClassAttribute = false
+reportPrivateUsage = false
+reportMissingParameterType = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportUnknownParameterType = false
 # reportPrivateImportUsage = false
 # reportPrivateLocalImportUsage = false
 # reportMissingImports = false
@@ -166,7 +172,6 @@ python_files = ["*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 testpaths = [
-    "src",
     "tests",
 ]
 norecursedirs = []
