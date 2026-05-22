@@ -1,3 +1,4 @@
+import datetime
 from unittest.mock import patch
 
 import pytest
@@ -184,9 +185,13 @@ def test_to_tool_list():
     assert names == {"search", "current_date"}
 
 
-def test_current_date():
-    import datetime
+def test_invalid_scope_raises():
+    tool = SiftQToolSpec(api_key="test-key", verbose=False)
+    with pytest.raises(ValueError, match="Invalid scope 'blarg'"):
+        tool.search("hello", scope="blarg")
 
+
+def test_current_date():
     tool = SiftQToolSpec(api_key="test-key", verbose=False)
     date = tool.current_date()
     assert date == str(datetime.date.today())

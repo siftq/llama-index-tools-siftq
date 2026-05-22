@@ -28,6 +28,7 @@ results = tool.search("latest AI research papers")
 ### With API Key
 
 ```python
+import asyncio
 import os
 
 from llama_index.core.agent import FunctionAgent
@@ -43,10 +44,14 @@ agent = FunctionAgent(
     llm=OpenAI(model="gpt-4.1"),
 )
 
-response = await agent.run(
-    "What are the latest developments in AI?"
-)
-print(response)
+async def main():
+    response = await agent.run(
+        "What are the latest developments in AI?"
+    )
+    print(response)
+
+
+asyncio.run(main())
 ```
 
 ### Basic Search
