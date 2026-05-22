@@ -81,8 +81,7 @@ style = "pep440"
 bump = true
 
 [tool.hatch.build.targets.wheel]
-# The source location for the package.
-packages = ["llama_index/tools/siftq"]
+packages = ["llama_index"]
 
 
 # ---- Settings ----
